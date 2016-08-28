@@ -9,8 +9,8 @@
     <authors>Demetrios Seferlis</authors>
     <description>Plugin for Resharper's Build/Run feature. Simulates the Visual Studio attach procedure in a better way by first starting the process and then attaching to it.</description>
     <language>en-US</language>
-    <projectUrl>http://xunit.codeplex.com/</projectUrl>
-    <licenseUrl>http://xunit.codeplex.com/license</licenseUrl>
+    <projectUrl>https://github.com/dseferlis/ResharperBuild.AttachAction</projectUrl>
+    <licenseUrl>https://github.com/dseferlis/ResharperBuild.AttachAction/blob/master/LICENSE.md</licenseUrl>
     <copyright>Copyright &#x00A9; 2016 Demetrios Seferlis</copyright>
     <dependencies>
       <dependency id="Wave" version="[6.0]" />
