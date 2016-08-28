@@ -4,7 +4,7 @@
 -->
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">  
   <metadata>
-    <id>ReSharperBuild.AttachConfiguration</id>
+    <id>ReSharperBuild.AttachAction</id>
     <version>1.0.0</version>
     <authors>Demetrios Seferlis</authors>
     <description>Plugin for Resharper's Build/Run feature. Simulates the Visual Studio attach procedure in a better way by first starting the process and then attaching to it.</description>

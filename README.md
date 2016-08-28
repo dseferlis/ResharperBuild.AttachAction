@@ -3,6 +3,8 @@ Plugin for Resharper's Build/Run feature.
 
 Simulates the Visual Studio attach procedure in a better way by first starting the process and then attaching to it.
 
+[[https://github.com/dseferlis/ResharperBuild.AttachAction/blob/master/Screenshots/Setup.png|alt=Setup]]
+
 The need of this plugin
 -----------------------
 While developing some modules for a third party application I was unable to F5 directly from Visual Studio, attach the debugger and debug the modules.

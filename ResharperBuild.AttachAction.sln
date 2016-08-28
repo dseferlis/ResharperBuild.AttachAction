@@ -15,6 +15,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		ResharperBuild.AttachAction.props = ResharperBuild.AttachAction.props
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Screenshots", "Screenshots", "{61302CB4-665D-497C-B70C-E6C43EE1CDD4}"
+	ProjectSection(SolutionItems) = preProject
+		Screenshots\Action.png = Screenshots\Action.png
+		Screenshots\Setup.png = Screenshots\Setup.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,5 +34,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{61302CB4-665D-497C-B70C-E6C43EE1CDD4} = {9E2BFEE5-3BA0-45D8-8BE1-7ECC6CB1C0D1}
 	EndGlobalSection
 EndGlobal
