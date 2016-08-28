@@ -1,0 +1,12 @@
+i:\MyDocuments\Visual Studio 2015\Projects\ResharperBuild.AttachAction\bin\Debug\ResharperBuild.AttachAction.dll
+i:\MyDocuments\Visual Studio 2015\Projects\ResharperBuild.AttachAction\bin\Debug\ResharperBuild.AttachAction.pdb
+i:\MyDocuments\Visual Studio 2015\Projects\ResharperBuild.AttachAction\ResharperBuild.AttachAction\obj100\ResharperBuild.AttachAction.dll
+i:\MyDocuments\Visual Studio 2015\Projects\ResharperBuild.AttachAction\ResharperBuild.AttachAction\obj100\ResharperBuild.AttachAction.pdb
+I:\MyDocuments\Visual Studio 2015\Projects\ResharperBuild.AttachAction\bin\Release\ResharperBuild.AttachAction.dll
+I:\MyDocuments\Visual Studio 2015\Projects\ResharperBuild.AttachAction\bin\Release\ResharperBuild.AttachAction.pdb
+i:\mydocuments\visual studio 2015\Projects\ResharperBuild.AttachAction\ResharperBuild.AttachAction\obj100\ResharperBuild.AttachAction.csprojResolveAssemblyReference.cache
+i:\mydocuments\visual studio 2015\Projects\ResharperBuild.AttachAction\ResharperBuild.AttachAction\obj100\ResharperBuild.AttachAction.g.resources
+i:\mydocuments\visual studio 2015\Projects\ResharperBuild.AttachAction\ResharperBuild.AttachAction\obj100\ResharperBuild.AttachAction_MarkupCompile.cache
+i:\mydocuments\visual studio 2015\Projects\ResharperBuild.AttachAction\ResharperBuild.AttachAction\obj100\ResharperBuild.AttachAction_MarkupCompile.lref
+i:\mydocuments\visual studio 2015\Projects\ResharperBuild.AttachAction\ResharperBuild.AttachAction\obj100\AttachConfigView.g.cs
+i:\mydocuments\visual studio 2015\Projects\ResharperBuild.AttachAction\ResharperBuild.AttachAction\obj100\AttachConfigView.baml

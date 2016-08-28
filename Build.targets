@@ -1,0 +1,5 @@
+<Project ToolsVersion="14.0" DefaultTargets="BuildAll" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Target Name="BuildAll">
+		<MSBuild Projects="ResharperBuild.AttachAction\ResharperBuild.AttachAction.csproj" Properties="Platform=AnyCPU;Configuration=Release" />
+	</Target>
+</Project>

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+  For more info on this file format visit http://docs.nuget.org/docs/reference/nuspec-reference.
+-->
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">  
+  <metadata>
+    <id>ReSharperBuild.AttachConfiguration</id>
+    <version>1.0.0</version>
+    <authors>Demetrios Seferlis</authors>
+    <description>Add Attach option in RunConfiguration</description>
+    <language>en-US</language>
+    <projectUrl>http://xunit.codeplex.com/</projectUrl>
+    <licenseUrl>http://xunit.codeplex.com/license</licenseUrl>
+    <copyright>Copyright &#x00A9; 2013-2016 Demetrios Seferlis</copyright>
+    <dependencies>
+      <dependency id="Wave" version="[6.0]" />
+    </dependencies>
+  </metadata>
+  <files>
+
+    <file src="..\bin\Release\ResharperBuild.AttachAction.dll" target="DotFiles" />
+
+  </files>
+</package>
