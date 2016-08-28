@@ -8,11 +8,13 @@ using JetBrains.Application.Settings;
 using JetBrains.DataFlow;
 using JetBrains.IDE.RunConfig;
 using JetBrains.ProjectModel;
+using JetBrains.Threading;
 using JetBrains.UI.Icons;
 using JetBrains.Util;
 using JetBrains.VsIntegration.IDE.RunConfig;
 using JetBrains.VsIntegration.Resources;
 using DTEProcess = EnvDTE80.Process2;
+using Process = System.Diagnostics.Process;
 
 namespace ResharperBuild.AttachAction
 {
@@ -22,6 +24,7 @@ namespace ResharperBuild.AttachAction
         public string WorkingDirectory { get; set; }
         public string Arguments { get; set; }
         public string ClrVersion { get; set; }
+        public int WaitSeconds { get; set; }
 
         private readonly DTE2 _dte;
 
@@ -31,6 +34,7 @@ namespace ResharperBuild.AttachAction
             WorkingDirectory = string.Empty;
             Arguments = string.Empty;
             ClrVersion = string.Empty;
+            WaitSeconds = 0;
         }
 
         public override void Execute(RunConfigContext context) {
@@ -45,8 +49,12 @@ namespace ResharperBuild.AttachAction
 
                 var process = new Process {StartInfo = processStartInfo};
                 process.Start();
-                process.WaitForInputIdle(5000);
 
+                if (WaitSeconds > 0) {
+                    JetDispatcher.RunOrSleep(new TimeSpan(0, 0, WaitSeconds));
+                    //JetDispatcher.RunOrSleep(() => process.HasExited, new TimeSpan(0, 0, WaitSeconds));
+                }
+                
                 var dbg2 = _dte.Debugger as Debugger2;
                 if (dbg2 == null) return;
                 var engines = dbg2.Transports.Item("default").Engines;
@@ -93,6 +101,7 @@ namespace ResharperBuild.AttachAction
             WorkingDirectory = key.WorkingDirectory;
             Arguments = key.Arguments;
             ClrVersion = key.ClrVersion;
+            WaitSeconds = key.WaitSeconds;
             return true;
         }
 
@@ -103,6 +112,7 @@ namespace ResharperBuild.AttachAction
                 mapping);
             store.SetIfChanged((Expression<Func<AttachSettings, string>>) (s => s.Arguments), Arguments, mapping);
             store.SetIfChanged((Expression<Func<AttachSettings, string>>) (s => s.ClrVersion), ClrVersion, mapping);
+            store.SetIfChanged((Expression<Func<AttachSettings, int>>) (s => s.WaitSeconds), WaitSeconds, mapping);
         }
     }
 }

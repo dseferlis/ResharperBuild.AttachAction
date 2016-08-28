@@ -14,5 +14,7 @@ namespace ResharperBuild.AttachAction
         public string Arguments;
         [SettingsEntry(null, "Clr version")]
         public string ClrVersion { get; set; }
+        [SettingsEntry(null, "Wait Seconds")]
+        public int WaitSeconds { get; set; }
     }
 }

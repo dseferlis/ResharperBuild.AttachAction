@@ -41,13 +41,19 @@
     <Label Content="Command line _arguments:" Target="{Binding ElementName=CommandLine}"/>
     <TextBox GotKeyboardFocus="SelectOnKeyboardFocus" x:Name="CommandLine" Padding="2"
            Text="{Binding Arguments.Value, Mode=TwoWay}"/>
-    <StackPanel Orientation="Horizontal" Margin="0 20 0 8">
-        <StackPanel Orientation="Horizontal" Margin="20 0 0 0"
-                Visibility="{Binding SelectedClrVersionVisibility.Value}">
+    <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
+        <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
             <Label Content="Debu_g Engine:" Padding="0 2 6 0" Target="{Binding ElementName=RuntimeSelection}"/>
             <ComboBox x:Name="RuntimeSelection" VerticalAlignment="Center" Width="200"
                 ItemsSource="{Binding ClrVersions}"
                 SelectedItem="{Binding SelectedClrVersion.Value, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="10 0 0 0">
+            <Label Content="Wait _Seconds" Padding="0 2 6 0" Target="{Binding ElementName=WaitSeconds}" />
+            <TextBox x:Name="WaitSeconds" Width="30" GotKeyboardFocus="SelectOnKeyboardFocus" Padding="2" Text="{Binding WaitingSeconds.Value, Mode=TwoWay}" />
+                <Image Height="16" Width="16" Margin="8 0 0 0" ToolTip="{Binding WaitingSecondsError.Value}"
+           Visibility="{Binding WaitingSecondsErrorVisibility.Value}"
+           Source="{jui:ThemedIcon TypeofIcon={x:Type resources:CommonThemedIcons+Error}}"/>
         </StackPanel>
     </StackPanel>
 </StackPanel>

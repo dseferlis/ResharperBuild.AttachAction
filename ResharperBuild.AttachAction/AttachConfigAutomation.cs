@@ -35,7 +35,11 @@ namespace ResharperBuild.AttachAction
 
         public IProperty<string> SelectedClrVersion { get; set; }
 
-        public IProperty<Visibility> SelectedClrVersionVisibility { get; private set; }
+        public IProperty<string> WaitingSeconds { get; set; }
+
+        public Property<string> WaitingSecondsError { get; private set; }
+
+        public IProperty<Visibility> WaitingSecondsErrorVisibility { get; private set; }
 
         public Property<string> DirectoryError { get; private set; }
 
@@ -54,8 +58,10 @@ namespace ResharperBuild.AttachAction
         public AttachConfigAutomation(Lifetime lifetime, AttachConfig runConfig, ISolution solution) {
             _myRunConfig = runConfig;
             _mySolution = solution;
-            Path = new Property<string>(lifetime, "Path",SolutionRelativePathUtils.EnsureIsAbsoluteWithSolution(runConfig.ExePath, solution).FullPath);
-            WorkingDirectory =new Property<string>(lifetime, "WorkingDirectory",SolutionRelativePathUtils.EnsureIsAbsoluteWithSolution(runConfig.WorkingDirectory, solution).FullPath);
+            Path = new Property<string>(lifetime, "Path",
+                SolutionRelativePathUtils.EnsureIsAbsoluteWithSolution(runConfig.ExePath, solution).FullPath);
+            WorkingDirectory = new Property<string>(lifetime, "WorkingDirectory",
+                SolutionRelativePathUtils.EnsureIsAbsoluteWithSolution(runConfig.WorkingDirectory, solution).FullPath);
             Arguments = new Property<string>(lifetime, "Arguments", runConfig.Arguments);
             var listEvents2 = new ListEvents<string>(lifetime, "ClrVersions");
             var dte = Shell.Instance.GetComponent<DTE>() as DTE2;
@@ -67,37 +73,61 @@ namespace ResharperBuild.AttachAction
                 }
             }
 
-            ClrVersions = (ListEvents<string>) listEvents2.OrderByLive(lifetime, StringComparer.Create(CultureInfo.CurrentCulture, true));
+            ClrVersions =
+                (ListEvents<string>)
+                listEvents2.OrderByLive(lifetime, StringComparer.Create(CultureInfo.CurrentCulture, true));
             SelectedClrVersion = new Property<string>(lifetime, "SelectedClrVersion", runConfig.ClrVersion);
+            WaitingSeconds = new Property<string>(lifetime, "WaitingSeconds", runConfig.WaitSeconds.ToString());
             IsValid = new Property<bool>(lifetime, "IsValid");
             SelectPathCommand = new DelegateCommand(SelectPathExecute);
             SelectDirectoryCommand = new DelegateCommand(SelectDirectoryExecute);
-            PathError = new Property<string>(lifetime, "NameError", null,true);
+            PathError = new Property<string>(lifetime, "NameError", null, true);
             PathErrorVisibility = new Property<Visibility>(lifetime, "NameErrorVisibility");
-            PathError.FlowInto(lifetime, PathErrorVisibility,s => !s.IsNullOrWhitespace() ? Visibility.Visible : Visibility.Collapsed);
+            PathError.FlowInto(lifetime, PathErrorVisibility,
+                s => !s.IsNullOrWhitespace() ? Visibility.Visible : Visibility.Collapsed);
             DirectoryErrorVisibility = new Property<Visibility>(lifetime, "DirectoryErrorVisibility");
-            DirectoryError = new Property<string>(lifetime, "DirectoryError", null,true);
-            DirectoryError.FlowInto(lifetime,DirectoryErrorVisibility,s => !s.IsNullOrWhitespace() ? Visibility.Visible : Visibility.Collapsed);
-            PropertyBinding.Create2(lifetime, DirectoryError,PathError, IsValid,(s, s1) => {
-                if (s.IsNullOrWhitespace())
-                    return s1.IsNullOrWhitespace();
-                return false;
+            DirectoryError = new Property<string>(lifetime, "DirectoryError", null, true);
+            DirectoryError.FlowInto(lifetime, DirectoryErrorVisibility,
+                s => !s.IsNullOrWhitespace() ? Visibility.Visible : Visibility.Collapsed);
+            WaitingSecondsErrorVisibility = new Property<Visibility>(lifetime, "WaitingSecondsErrorVisibility");
+            WaitingSecondsError = new Property<string>(lifetime, "WaitingSecondsError", null, true);
+            int waitSeconds;
+            WaitingSecondsError.FlowInto(lifetime, WaitingSecondsErrorVisibility,
+                s => !s.IsNullOrWhitespace() ? Visibility.Visible : Visibility.Collapsed);
+
+            PropertyBinding.Create3(lifetime, DirectoryError, PathError, WaitingSecondsError, IsValid, (s, s1, s2) => {
+                var executableError = s.IsNullOrWhitespace() && s1.IsNullOrWhitespace();
+                return executableError && s2.IsNullOrWhitespace();
             });
+
             Path.Change.Advise_HasNew(lifetime, args => {
-                string str = args.New;if (str.IsNullOrEmpty())PathError.Value = "Path cannot be empty";
+                string str = args.New;
+                if (str.IsNullOrEmpty()) PathError.Value = "Path cannot be empty";
                 else if (FileSystemPath.TryParse(str).IsEmpty)
                     PathError.Value = "Invalid path";
                 else
                     PathError.Value = null;
             });
-            WorkingDirectory.Change.Advise_HasNew(lifetime,
-                args => {
+            WorkingDirectory.Change.Advise_HasNew(lifetime, args => {
                     string str = args.New;
                     if (!str.IsNullOrEmpty() && FileSystemPath.TryParse(str).IsEmpty)
                         DirectoryError.Value = "Invalid path";
                     else
                         DirectoryError.Value = null;
                 });
+
+            WaitingSeconds.Change.Advise_HasNew(lifetime, args => {
+                var str = args.New;
+                if (!int.TryParse(str, out waitSeconds)) {
+                    WaitingSecondsError.Value = "Has to be a number (int)";
+                }
+                else if (waitSeconds < 0) {
+                    WaitingSecondsError.Value = "Has to be non-negative number";
+                }
+                else {
+                    WaitingSecondsError.Value = null;
+                }
+            });
         }
 
         public ListEvents<string> ClrVersions { get; set; }
@@ -139,6 +169,7 @@ namespace ResharperBuild.AttachAction
                 SolutionRelativePathUtils.TryMakeRelativeToSolution(WorkingDirectory.Value.Trim(), _mySolution);
             config.Arguments = Arguments.Value;
             config.ClrVersion = SelectedClrVersion.Value;
+            config.WaitSeconds = int.Parse(WaitingSeconds.Value);
         }
     }
 }
