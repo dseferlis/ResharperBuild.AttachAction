@@ -1,0 +1,9 @@
+{
+  "commands": {
+    "Build": {
+      "fileName": "cmd.exe",
+      "workingDirectory": ".",
+      "arguments": "/c Build.cmd"
+    }
+  }
+}
