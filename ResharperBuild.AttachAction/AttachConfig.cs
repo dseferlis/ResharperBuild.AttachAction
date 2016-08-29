@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.InteropServices;
 using EnvDTE80;
 using JetBrains.Application.Settings;
 using JetBrains.DataFlow;
@@ -20,6 +21,14 @@ namespace ResharperBuild.AttachAction
 {
     public class AttachConfig : RunConfigBase
     {
+        [DllImport("user32.dll")]
+        private static extern bool AllowSetForegroundWindow(int processId);
+        [DllImport("user32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern bool BringWindowToTop(IntPtr hWnd);
+
+
         public string ExePath { get; set; }
         public string WorkingDirectory { get; set; }
         public string Arguments { get; set; }
@@ -68,6 +77,10 @@ namespace ResharperBuild.AttachAction
                 var processToAttach =
                     _dte.Debugger.LocalProcesses.Cast<DTEProcess>().FirstOrDefault(p => p.ProcessID == process.Id);
                 processToAttach?.Attach2(selectedEngine);
+                if (!AllowSetForegroundWindow(process.Id)) return;
+                if (process.MainWindowHandle != IntPtr.Zero) {
+                    SetForegroundWindow(process.MainWindowHandle);
+                }
             }
             else {
                 context.ExecutionProvider.Execute(processStartInfo, context, this);
