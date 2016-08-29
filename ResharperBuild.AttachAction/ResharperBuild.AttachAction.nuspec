@@ -12,6 +12,7 @@
     <projectUrl>https://github.com/dseferlis/ResharperBuild.AttachAction</projectUrl>
     <licenseUrl>https://github.com/dseferlis/ResharperBuild.AttachAction/blob/master/LICENSE.md</licenseUrl>
     <copyright>Copyright &#x00A9; 2016 Demetrios Seferlis</copyright>
+    <tags>build attach debug helper</tags>
     <dependencies>
       <dependency id="Wave" version="[6.0]" />
     </dependencies>
