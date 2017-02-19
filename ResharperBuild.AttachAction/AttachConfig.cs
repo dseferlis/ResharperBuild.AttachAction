@@ -23,8 +23,10 @@ namespace ResharperBuild.AttachAction
     {
         [DllImport("user32.dll")]
         private static extern bool AllowSetForegroundWindow(int processId);
+
         [DllImport("user32.dll")]
         private static extern bool SetForegroundWindow(IntPtr hWnd);
+
         [DllImport("user32.dll", SetLastError = true)]
         static extern bool BringWindowToTop(IntPtr hWnd);
 
@@ -63,7 +65,7 @@ namespace ResharperBuild.AttachAction
                     JetDispatcher.RunOrSleep(new TimeSpan(0, 0, WaitSeconds));
                     //JetDispatcher.RunOrSleep(() => process.HasExited, new TimeSpan(0, 0, WaitSeconds));
                 }
-                
+
                 var dbg2 = _dte.Debugger as Debugger2;
                 if (dbg2 == null) return;
                 var engines = dbg2.Transports.Item("default").Engines;
@@ -77,10 +79,13 @@ namespace ResharperBuild.AttachAction
                 var processToAttach =
                     _dte.Debugger.LocalProcesses.Cast<DTEProcess>().FirstOrDefault(p => p.ProcessID == process.Id);
                 processToAttach?.Attach2(selectedEngine);
-                if (!AllowSetForegroundWindow(process.Id)) return;
-                if (process.MainWindowHandle != IntPtr.Zero) {
-                    SetForegroundWindow(process.MainWindowHandle);
+                while (processToAttach != null && !processToAttach.IsBeingDebugged) {
+                    JetDispatcher.RunOrSleep(new TimeSpan(0, 0, 0, 0, 100));
                 }
+                if (process.MainWindowHandle == IntPtr.Zero) return;
+                if (!AllowSetForegroundWindow(process.Id)) return;
+                if (!BringWindowToTop(process.MainWindowHandle))
+                    SetForegroundWindow(process.MainWindowHandle);
             }
             else {
                 context.ExecutionProvider.Execute(processStartInfo, context, this);
