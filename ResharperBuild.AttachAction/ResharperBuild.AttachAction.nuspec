@@ -2,10 +2,10 @@
 <!-- 
   For more info on this file format visit http://docs.nuget.org/docs/reference/nuspec-reference.
 -->
-<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">  
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>ReSharperBuild.AttachAction</id>
-    <version>1.0.3</version>
+    <version>1.1.1</version>
     <authors>Demetrios Seferlis</authors>
     <description>Plugin for Resharper's Build/Run feature. Simulates the Visual Studio attach procedure in a better way by first starting the process and then attaching to it.</description>
     <language>en-US</language>
@@ -15,7 +15,7 @@
     <tags>build attach debug helper</tags>
     <releaseNotes>Bring host application in front after attaching debugger</releaseNotes>
     <dependencies>
-      <dependency id="Wave" version="[7.0]" />
+      <dependency id="Wave" version="[8.0]" />
     </dependencies>
   </metadata>
   <files>

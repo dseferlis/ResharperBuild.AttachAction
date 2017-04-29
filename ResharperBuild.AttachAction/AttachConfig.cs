@@ -41,6 +41,7 @@ namespace ResharperBuild.AttachAction
 
         public AttachConfig(DTE2 dte) {
             _dte = dte;
+
             ExePath = string.Empty;
             WorkingDirectory = string.Empty;
             Arguments = string.Empty;
