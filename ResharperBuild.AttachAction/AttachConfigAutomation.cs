@@ -1,27 +1,28 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Input;
 using EnvDTE;
 using EnvDTE80;
 using JetBrains.Application.UI.Commands;
+using JetBrains.Application.UI.Controls.FileSystem;
+using JetBrains.Application.UI.UIAutomation;
 using JetBrains.DataFlow;
 using JetBrains.IDE.RunConfig;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Resources.Shell;
-using JetBrains.UI.Controls;
-using JetBrains.UI.Wpf;
 using JetBrains.Util;
 using JetBrains.VsIntegration.IDE.RunConfig;
 using Microsoft.Win32;
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 
 namespace ResharperBuild.AttachAction
 {
-    public class AttachConfigAutomation : AAutomation, IRunConfigEditorAutomation, IAutomation, INotifyPropertyChanged
+    public class AttachConfigAutomation : AAutomation, IRunConfigEditorAutomation
     {
         private readonly AttachConfig _myRunConfig;
         private readonly ISolution _mySolution;
+        private readonly ICommonFileDialogs _commonFileDialogs;
 
         public IProperty<string> Path { get; private set; }
 
@@ -49,24 +50,22 @@ namespace ResharperBuild.AttachAction
 
         public Property<string> PathError { get; private set; }
 
-        public IRunConfig Config {
-            get { return _myRunConfig; }
-        }
+        public IRunConfig Config => _myRunConfig;
 
         public Property<bool> IsValid { get; private set; }
 
         public AttachConfigAutomation(Lifetime lifetime, AttachConfig runConfig, ISolution solution) {
             _myRunConfig = runConfig;
             _mySolution = solution;
+            _commonFileDialogs = solution.GetComponent<ICommonFileDialogs>();
             Path = new Property<string>(lifetime, "Path",
                 SolutionRelativePathUtils.EnsureIsAbsoluteWithSolution(runConfig.ExePath, solution).FullPath);
             WorkingDirectory = new Property<string>(lifetime, "WorkingDirectory",
                 SolutionRelativePathUtils.EnsureIsAbsoluteWithSolution(runConfig.WorkingDirectory, solution).FullPath);
             Arguments = new Property<string>(lifetime, "Arguments", runConfig.Arguments);
             var listEvents2 = new ListEvents<string>(lifetime, "ClrVersions");
-            var dte = Shell.Instance.GetComponent<DTE>() as DTE2;
-            var debugger2 = dte?.Debugger as Debugger2;
-            if (debugger2 != null) {
+            var dte = Shell.Instance.GetComponent<DTE>();
+            if (dte.Debugger is Debugger2 debugger2) {
                 var transports = debugger2.Transports.Item("default");
                 foreach (Engine engine in transports.Engines) {
                     listEvents2.Add(engine.Name);
@@ -133,8 +132,7 @@ namespace ResharperBuild.AttachAction
         public ListEvents<string> ClrVersions { get; set; }
 
         private void SelectDirectoryExecute() {
-            FileSystemPath fileSystemPath = CommonFileDialogs.BrowseForFolder("Select Folder",
-                FileSystemPath.Parse(WorkingDirectory.Value), null, null);
+            FileSystemPath fileSystemPath = _commonFileDialogs.BrowseForFolder("Select Folder", FileSystemPath.Parse(WorkingDirectory.Value));
             if (!(fileSystemPath != null))
                 return;
             WorkingDirectory.Value = fileSystemPath.FullPath;

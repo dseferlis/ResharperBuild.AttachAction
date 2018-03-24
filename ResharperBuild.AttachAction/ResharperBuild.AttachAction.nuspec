@@ -5,17 +5,17 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>ReSharperBuild.AttachAction</id>
-    <version>1.1.1</version>
+    <version>1.2.1</version>
     <authors>Demetrios Seferlis</authors>
     <description>Plugin for Resharper's Build/Run feature. Simulates the Visual Studio attach procedure in a better way by first starting the process and then attaching to it.</description>
     <language>en-US</language>
     <projectUrl>https://github.com/dseferlis/ResharperBuild.AttachAction</projectUrl>
     <licenseUrl>https://github.com/dseferlis/ResharperBuild.AttachAction/blob/master/LICENSE.md</licenseUrl>
-    <copyright>Copyright &#x00A9; 2016 Demetrios Seferlis</copyright>
+    <copyright>Copyright &#x00A9; 2016-2018 Demetrios Seferlis</copyright>
     <tags>build attach debug helper</tags>
     <releaseNotes>Bring host application in front after attaching debugger</releaseNotes>
     <dependencies>
-      <dependency id="Wave" version="[8.0]" />
+      <dependency id="Wave" version="[11.0.0]" />
     </dependencies>
   </metadata>
   <files>

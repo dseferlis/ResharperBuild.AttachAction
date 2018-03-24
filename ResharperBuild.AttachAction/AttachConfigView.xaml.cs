@@ -2,14 +2,14 @@
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Markup;
-using JetBrains.UI.Wpf;
+using JetBrains.Application.UI.Automation;
 
 namespace ResharperBuild.AttachAction
 {
     /// <summary>
     /// Interaction logic for AttachConfigView.xaml
     /// </summary>
-    [View(ViewKind.Wpf)]
+    [View]
     public partial class AttachConfigView : StackPanel, IView<AttachConfigAutomation>, IView, IComponentConnector
     {
         public AttachConfigView()

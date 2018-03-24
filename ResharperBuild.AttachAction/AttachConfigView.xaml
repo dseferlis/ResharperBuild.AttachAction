@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:jui="urn:schemas-jetbrains-com:jetbrains-ui-avalon"
              xmlns:resources="urn:schemas-jetbrains-com:jetbrains-ui-resources"
-             xmlns:local="clr-namespace:ResharperBuild.AttachAction">
+             xmlns:local="clr-namespace:ResharperBuild.AttachAction"
+             xmlns:commonThemedIcons="clr-namespace:JetBrains.Application.UI.Icons.CommonThemedIcons;assembly=JetBrains.Platform.Shell">
     <Label Content="Path to _executable:" Target="{Binding ElementName=ExecutablePath}"/>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -18,7 +19,7 @@
              Text="{Binding Path.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
         <Image Height="16" Width="16" Grid.Column="1" Margin="8 0 0 0" ToolTip="{Binding PathError.Value}"
            Visibility="{Binding PathErrorVisibility.Value}"
-           Source="{jui:ThemedIcon TypeofIcon={x:Type resources:CommonThemedIcons+Error}}"/>
+           Source="{jui:ThemedIcon TypeofIcon={x:Type commonThemedIcons:CommonThemedIcons+Error}}"/>
         <Button Content="..." Grid.Column="2" Width="30" Margin="8 0 0 0"
             Command="{Binding SelectPathCommand, Mode=OneTime}"/>
     </Grid>
@@ -34,7 +35,7 @@
              Text="{Binding WorkingDirectory.Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
         <Image Height="16" Width="16" Grid.Column="1" Margin="8 0 0 0" ToolTip="{Binding DirectoryError.Value}"
            Visibility="{Binding DirectoryErrorVisibility.Value}"
-           Source="{jui:ThemedIcon TypeofIcon={x:Type resources:CommonThemedIcons+Error}}"/>
+           Source="{jui:ThemedIcon TypeofIcon={x:Type commonThemedIcons:CommonThemedIcons+Error}}"/>
         <Button Content="..." Grid.Column="2" Width="30" Margin="8 0 0 0"
             Command="{Binding SelectDirectoryCommand, Mode=OneTime}"/>
     </Grid>
@@ -53,7 +54,7 @@
             <TextBox x:Name="WaitSeconds" Width="30" GotKeyboardFocus="SelectOnKeyboardFocus" Padding="2" Text="{Binding WaitingSeconds.Value, Mode=TwoWay}" />
                 <Image Height="16" Width="16" Margin="8 0 0 0" ToolTip="{Binding WaitingSecondsError.Value}"
            Visibility="{Binding WaitingSecondsErrorVisibility.Value}"
-           Source="{jui:ThemedIcon TypeofIcon={x:Type resources:CommonThemedIcons+Error}}"/>
+           Source="{jui:ThemedIcon TypeofIcon={x:Type commonThemedIcons:CommonThemedIcons+Error}}"/>
         </StackPanel>
     </StackPanel>
 </StackPanel>
