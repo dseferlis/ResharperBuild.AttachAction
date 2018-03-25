@@ -15,7 +15,7 @@
     <tags>build attach debug helper</tags>
     <releaseNotes>Bring host application in front after attaching debugger</releaseNotes>
     <dependencies>
-      <dependency id="Wave" version="[11.0.0]" />
+      <dependency id="Wave" version="[12.0.0]" />
     </dependencies>
   </metadata>
   <files>

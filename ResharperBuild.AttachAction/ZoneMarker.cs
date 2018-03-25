@@ -5,6 +5,6 @@ namespace ResharperBuild.AttachAction
     [ZoneMarker]
     public class ZoneMarker
     {
-        
+
     }
 }
